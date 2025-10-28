@@ -1,11 +1,10 @@
-import React from 'react';
+import React from "react";
+import { useLoaderData } from "react-router";
 
 const Phones = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  const phones = useLoaderData();
+  console.log(phones);
+  return <div>All phones: {phones.length}</div>;
 };
 
 export default Phones;

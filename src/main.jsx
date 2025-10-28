@@ -1,21 +1,34 @@
-import { StrictMode } from "react";
+import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 
 import "./index.css";
-import App from "./App.jsx";
 import Main from "./components/Main.jsx";
-import Contact from "./components/Contact.jsx";
+import Phone from "./components/Phone.jsx";
+// import Phones from "./components/Phones.jsx";
 
-createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     Component: Main,
-    children: [{ path: "phones", Component: Contact }],
+    children: [
+      {
+        index: true,
+        Component: Main,
+      },
+      {
+        path: "/phone",
+        Component: Phone,
+        loader: () => fetch("http://localhost:5000/phones"),
+      },
+    ],
   },
 ]);
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Suspense fallback={<div>Loading component...</div>}>
+      <RouterProvider router={router} />
+    </Suspense>
   </StrictMode>
 );
